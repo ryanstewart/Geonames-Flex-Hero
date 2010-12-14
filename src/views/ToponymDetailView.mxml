@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="ToponymDetailView"
+		viewActivate="view1_viewActivateHandler(event)" 
+		xmlns:getphotos="services.getphotos.*">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.events.ViewNavigatorEvent;
+
+			protected function view1_viewActivateHandler(event:ViewNavigatorEvent):void
+			{
+				// when the view activates, every thing is done
+				// so grab the photos from Flickr
+				getPhotosResult.token = getPhotos.getData("flickr.photos.search",
+					"029a323aa8cef80a6e23baadf8ce7171",data.toponymName,data.lat,data.lng,"20","miles");
+			}
+
+
+			protected function getPhotosResult_resultHandler(event:ResultEvent):void
+			{
+				listPhotos.dataProvider = event.result as ArrayCollection;
+			}
+
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<s:CallResponder id="getPhotosResult" result="getPhotosResult_resultHandler(event)"/>
+		<getphotos:GetPhotos id="getPhotos" />
+	</fx:Declarations>
+	<s:layout>
+		<s:VerticalLayout paddingTop="10" />
+	</s:layout>
+	<s:Label id="lblName" width="100%" text="{'Name: '+data.toponymName}" />
+	<s:Label id="lblLat" width="100%" text="{'Latitude: '+data.lat}" />
+	<s:Label id="lblLng" width="100%" text="{'Longitude: '+data.lng}" />
+	<s:Label id="lblDistance" width="100%" text="{'Distance: '+data.distance}" />
+	<s:List id="listPhotos" width="100%" itemRenderer="components.ImageRenderer" height="600"/>
+</s:View>

@@ -1,0 +1,125 @@
+
+<model xmlns="http://ns.adobe.com/Fiber/1.0">
+  <annotation name="ActionScriptGeneration">
+    <item name="FullyQualifyReferences">true</item>
+  </annotation>
+  <service name="FindNearby">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.findnearby</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">XML</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getData" parameters="lat:string,lng:string,featureClass:string,radius:string,maxRows:string" return-type="Geoname[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.xml.XMLSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">http://ws.geonames.org/findNearby</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="displayUrl">http://ws.geonames.org/findNearby?lat=42.143&amp;lng=-122.2342&amp;featureClass=L&amp;radius=30&amp;maxRows=50</item>
+        <item name="completeURL">http://ws.geonames.org/findNearby?lat=42.143&amp;lng=-122.2342&amp;featureClass=L&amp;radius=30&amp;maxRows=50</item>
+        <item name="isUrl">true</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="xPath">/::geoname</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParamNames">lat,lng,featureClass,radius,maxRows</item>
+        <item name="inputParams">string,string,string,string,string</item>
+        <item name="returnType">opaque</item>
+      </annotation>
+    </function>
+  </service>
+  <entity name="Geoname">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Geoname</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">FindNearby</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="toponymName" type="string" required="true"/>
+    <property name="name" type="string" required="true"/>
+    <property name="lat" type="string" required="true"/>
+    <property name="lng" type="string" required="true"/>
+    <property name="geonameId" type="string" required="true"/>
+    <property name="countryCode" type="string" required="true"/>
+    <property name="countryName" type="string" required="true"/>
+    <property name="fcl" type="string" required="true"/>
+    <property name="fcode" type="string" required="true"/>
+    <property name="distance" type="string" required="true"/>
+  </entity>
+  <service name="GetPhotos">
+    <annotation name="ActionScriptGeneration">
+      <item name="ServiceType">HTTPMultiService</item>
+      <item name="Package">services.getphotos</item>
+    </annotation>
+    <annotation name="ServiceTypeGroup">
+      <item name="ServiceBackendType">XML</item>
+    </annotation>
+    <annotation name="ServiceConfig">
+      <item name="DEFAULT_ENTITY_PACKAGE">valueObjects</item>
+      <item name="LINKED_FILE"></item>
+    </annotation>
+    <function name="getData" parameters="method:string,api_key:string,tags:string,lat:string,lon:string,radius:string,radius_units:string" return-type="Photo[]">
+      <annotation name="analyze group">
+        <item name="analyzed">true</item>
+      </annotation>
+      <annotation name="ActionScriptGeneration">
+        <item name="SerializationFilter">com.adobe.serializers.xml.XMLSerializationFilter</item>
+        <item name="method">GET</item>
+        <item name="url">http://api.flickr.com/services/rest/</item>
+      </annotation>
+      <annotation name="url group">
+        <item name="displayUrl">http://api.flickr.com/services/rest/?method=flickr.photos.search&amp;api_key=029a323aa8cef80a6e23baadf8ce7171&amp;tags=seattle&amp;lat=47.413&amp;lon=-121.234&amp;radius=25&amp;radius_units=miles</item>
+        <item name="completeURL">http://api.flickr.com/services/rest/?method=flickr.photos.search&amp;api_key=029a323aa8cef80a6e23baadf8ce7171&amp;tags=seattle&amp;lat=47.413&amp;lon=-121.234&amp;radius=25&amp;radius_units=miles</item>
+        <item name="isUrl">true</item>
+      </annotation>
+      <annotation name="Properties">
+        <item name="xPath">/::photos/::photo</item>
+      </annotation>
+      <annotation name="original signature">
+        <item name="inputParamNames">method,api_key,tags,lat,lon,radius,radius_units</item>
+        <item name="inputParams">string,string,string,string,string,string,string</item>
+        <item name="returnType">opaque</item>
+      </annotation>
+    </function>
+  </service>
+  <entity name="Photo">
+    <annotation name="EntityProperties">
+      <item name="EntityOriginalName">Photo</item>
+    </annotation>
+    <annotation name="service Group">
+      <item name="service">GetPhotos</item>
+    </annotation>
+    <annotation name="ServerProperties">
+      <item name="IncludeRemoteClass">nonempty</item>
+    </annotation>
+    <annotation name="ActionScriptGeneration">
+      <item name="Package">valueObjects</item>
+    </annotation>
+    <property name="id" type="string" required="true"/>
+    <property name="owner" type="string" required="true"/>
+    <property name="secret" type="string" required="true"/>
+    <property name="server" type="string" required="true"/>
+    <property name="farm" type="string" required="true"/>
+    <property name="title" type="string" required="true"/>
+    <property name="ispublic" type="string" required="true"/>
+    <property name="isfriend" type="string" required="true"/>
+    <property name="isfamily" type="string" required="true"/>
+  </entity>
+</model>

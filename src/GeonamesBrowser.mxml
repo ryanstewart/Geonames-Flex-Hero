@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:MobileApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 firstView="views.GeonamesBrowserHomeView"
+					 interactionMode="mouse">
+
+	<fx:Script>
+		<![CDATA[
+			protected function btnBack_clickHandler(event:MouseEvent):void
+			{
+				// take us back to the last view
+				navigator.popView();
+			}
+
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:navigationContent>
+		<s:Button id="btnBack" icon="@Embed('assets/back.png')" click="btnBack_clickHandler(event)" />
+	</s:navigationContent>
+</s:MobileApplication>

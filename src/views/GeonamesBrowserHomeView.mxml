@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:components="components.*"
+		xmlns:findnearby="services.findnearby.*"
+		title="HomeView">
+
+	<fx:Script>
+		<![CDATA[
+			import flash.sensors.Geolocation;
+			
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.ViewTransition;
+			
+			public var geo:Geolocation;
+			
+			private var _lat:Number;
+			private var _lon:Number;
+			
+			protected function btnLoc_clickHandler(event:MouseEvent):void
+			{
+				if(Geolocation.isSupported)
+				{
+					// init geolocation data 
+					geo = new Geolocation();
+					geo.addEventListener(GeolocationEvent.UPDATE,onUpdate);
+					btnSearch.label = "Getting Location";
+				} else {
+					btnSearch.label = "Location Not Supported";
+				}
+			}
+
+			protected function btnSearch_clickHandler(event:MouseEvent):void
+			{
+				// call the search function with geolocation data (or baked in data)
+				
+//				getDataResult.token = findNearby.getData(_lat.toString(),
+//					_lon.toString(), featureList.selectedItem.featureCode, "20","50");
+				getDataResult.token = findNearby.getData("32.777803",
+					"-117.155682", featureList.selectedItem.featureCode, "20","50");
+			}
+
+
+			protected function onUpdate(event:GeolocationEvent):void
+			{
+				btnSearch.enabled = true;
+				_lat = event.latitude;
+				_lon = event.longitude;
+			}
+
+
+			protected function getDataResult_resultHandler(event:ResultEvent):void
+			{
+				navigator.pushView(ToponymListView,event.result);
+				trace('test');
+			}
+
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<s:CallResponder id="getDataResult" result="getDataResult_resultHandler(event)"/>
+		<findnearby:FindNearby id="findNearby"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:navigationContent>
+		
+	</s:navigationContent>
+	<s:actionContent>
+		<s:Button id="btnLoc" icon="@Embed('assets/gps.png')" 
+				  click="btnLoc_clickHandler(event)" />
+	</s:actionContent>
+	<s:layout>
+		<s:VerticalLayout paddingTop="15" />
+	</s:layout>
+	<components:FeatureClassList width="100%" id="featureList"   />
+	<s:Button id="btnSearch" label="Need Location" width="100%" 
+			  click="btnSearch_clickHandler(event)" enabled="true" />
+</s:View>
